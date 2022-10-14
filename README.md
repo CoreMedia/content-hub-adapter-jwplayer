@@ -26,7 +26,7 @@ Configure the following for each connection.
 |----------------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | factoryId            | `jwplayer`           | Factory id used for the connection. Needs to be `jwplayer`                                                                    |
 | connectionId         | `YOUR CONNECTION ID` | Your connection id e.g. `jwplayer-1`, `jwplayer-2`, etc.                                                                      | 
-| enabled              | `true&#124;false`    | Enables or disables the connection                                                                                            |
+| enabled              | `true\|false`    | Enables or disables the connection                                                                                            |
 | settings             |                      | Struct with settings (see next rows)                                                                                          |
 | settings.displayName | My JW Player Account | Custom Display Name shown in the Studio library for this connection                                                           |
 | settings.siteId      | `YOUR SITE ID`       | See [JWP API Refernce > Site ID](https://docs.jwplayer.com/platform/reference/building-a-request#site-id) to get your site id | 
