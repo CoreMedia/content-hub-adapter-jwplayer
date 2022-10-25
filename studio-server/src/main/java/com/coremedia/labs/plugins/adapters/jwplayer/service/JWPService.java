@@ -68,14 +68,17 @@ public class JWPService {
   public List<Media> listAllMedia() throws JWPlatformException {
     List<Media> result = new ArrayList<>();
 
-    // Query params
-    Map<String, String> params = new HashMap<>();
-    params.put("page_length", String.format("%d", DEFAULT_PAGE_LENGTH));
+    MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+    queryParams.add("page_length", String.format("%d", DEFAULT_PAGE_LENGTH));
 
-    JSONObject listMediaJSON = mediaClient.listAllMedia(siteId, params);
-    MediaList mediaList = mapper.convertValue(listMediaJSON, MediaList.class);
-    // TODO: Load more results
+
+    Map<String, Object> requestVariables = Map.of(
+            "site_id", siteId
+    );
+
+    MediaList mediaList = doGet(MEDIA_LIST_PATH, queryParams, requestVariables, MediaList.class);
     result.addAll(mediaList.getMedia());
+    // TODO: Fetch more than 100 results
 
     return result;
   }
