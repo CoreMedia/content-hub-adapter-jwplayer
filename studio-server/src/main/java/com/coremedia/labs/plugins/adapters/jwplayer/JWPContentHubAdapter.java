@@ -230,11 +230,19 @@ public class JWPContentHubAdapter implements ContentHubAdapter, ContentHubSearch
 
         // search playlists
         if (isSearchForAllTypes || JWPContentHubType.PLAYLIST.getType().equals(type)) {
-          List<JWPPlaylistItem> items = JWPService.listPlaylists()
-                  .stream()
-                  .map(this::createPlaylistItem)
-                  .collect(Collectors.toList());
-          resultItems.addAll(items);
+          if (query.equals("")){
+            List<JWPPlaylistItem> items = JWPService.listPlaylists()
+                    .stream()
+                    .map(this::createPlaylistItem)
+                    .collect(Collectors.toList());
+            resultItems.addAll(items);
+          }else {
+            List<JWPPlaylistItem> items = JWPService.searchPlaylists(query)
+                    .stream()
+                    .map(this::createPlaylistItem)
+                    .collect(Collectors.toList());
+            resultItems.addAll(items);
+          }
         }
 
      result = new ContentHubSearchResult(resultItems);
