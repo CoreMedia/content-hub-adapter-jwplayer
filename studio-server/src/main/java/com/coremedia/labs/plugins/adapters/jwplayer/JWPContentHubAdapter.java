@@ -196,7 +196,7 @@ public class JWPContentHubAdapter implements ContentHubAdapter, ContentHubSearch
                                        List<Sort> sortCriteria,
                                        int limit) {
 
-    if (type != null && !supportedTypes().contains(type)) {
+    if (type != null && type.getName() != null && !supportedTypes().contains(type)) {
       throw new IllegalArgumentException("Unsupported search type " + type);
     }
 
@@ -210,11 +210,14 @@ public class JWPContentHubAdapter implements ContentHubAdapter, ContentHubSearch
 
     ContentHubSearchResult result = null;
 
+    Boolean isSearchForAllTypes = (type != null && type.getName() == null);
+
     try {
+      List<JWPItem> resultItems = new ArrayList();
 
         // search media (audio / video)
-        if (JWPContentHubType.AUDIO.getType().equals(type) ||
-                JWPContentHubType.VIDEO.getType().equals(type)) {
+        if (isSearchForAllTypes || (JWPContentHubType.AUDIO.getType().equals(type) ||
+                JWPContentHubType.VIDEO.getType().equals(type))) {
 
           List<Media> hits = StringUtils.isNotBlank(query) ? JWPService.searchMedia(query) : JWPService.listAllMedia();
           List<JWPMediaItem> items = hits
@@ -222,19 +225,19 @@ public class JWPContentHubAdapter implements ContentHubAdapter, ContentHubSearch
                   .filter(hit -> hit.getMediaType().equalsIgnoreCase(type.getName()))
                   .map(this::createMediaItem)
                   .collect(Collectors.toList());
-          result = new ContentHubSearchResult(items);
+          resultItems.addAll(items);
         }
 
         // search playlists
-        if (JWPContentHubType.PLAYLIST.getType().equals(type)) {
+        if (isSearchForAllTypes || JWPContentHubType.PLAYLIST.getType().equals(type)) {
           List<JWPPlaylistItem> items = JWPService.listPlaylists()
                   .stream()
                   .map(this::createPlaylistItem)
                   .collect(Collectors.toList());
-          result = new ContentHubSearchResult(items);
+          resultItems.addAll(items);
         }
 
-
+     result = new ContentHubSearchResult(resultItems);
     } catch (Exception e) {
       LOG.error("Search failed.", e);
     }
