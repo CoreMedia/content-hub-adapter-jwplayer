@@ -32,8 +32,8 @@ Configure the following for each connection.
 | settings.siteId      | `YOUR SITE ID`       | See [JWP API Refernce > Site ID](https://docs.jwplayer.com/platform/reference/building-a-request#site-id) to get your site id | 
 | settings.apiKey      | `YOUR API KEY`       | Can be created on the [JWP Dashboard > Account > API Credentials](https://dashboard.jwplayer.com/account/api-credentials)     | 
 
-
----
+## Changelog
+**[Changelog](CHANGELOG.md)** for recent changes
 
 ## CoreMedia Labs
 
